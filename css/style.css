@@ -16,7 +16,6 @@ body {
     overflow-y: auto;
     height: 100vh;
     border-right: 1px solid #ccc;
-    flex-shrink: 0;
 }
 
 .table-of-contents h3 {
