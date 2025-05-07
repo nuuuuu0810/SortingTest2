@@ -60,7 +60,7 @@ body {
 }
 
 .content-area {
-    flex-grow: 1;
+    flex-grow: 0;
     padding: 30px;
     box-sizing: border-box;
     overflow-y: auto; /* content-area 自体がスクロール可能 */
