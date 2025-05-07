@@ -55,7 +55,7 @@ body {
 .table-of-contents li a.active-toc-item {
     background-color: #007bff;
     color: white;
-    font-weight: bold;
+    /*font-weight: bold;*/
 }
 
 .content-area {
