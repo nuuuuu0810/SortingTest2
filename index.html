@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ソートアルゴリズム学習</title>
+    <!-- Prism.js のCSS (CDN) -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/themes/prism-okaidia.min.css" rel="stylesheet" />
+    <!-- カスタムCSS -->
+    <link href="css/style.css" rel="stylesheet" />
+</head>
+<body>
+    <nav class="table-of-contents">
+        <h3>目次</h3>
+        <ul>
+            <li><a href="#1-0sort-intro"><strong>ソートとは</strong></a>
+                <ul>
+                    <li><a href="#1-1sort-human">人間のソート（トランプ）</a></li>
+                    <li><a href="#1-2sort-computer">パソコンのソート</a></li>
+                    <li><a href="#1-3sort-human-vs-computer">人間とパソコンの比較</a></li>
+                </ul>
+            </li>
+            <li><a href="#2-0selection-sort-learn"><strong>選択ソートとは</strong></a>
+                <ul>
+                    <li><a href="#2-1selection-sort-steps">選択ソートの仕組み ステップ</a></li>
+                    <li><a href="#2-2selection-sort-example">選択ソートの仕組み 3つ・5つ</a></li>
+                </ul>
+            </li>
+            <li><a href="#3-0selection-sort-exercise"><strong>選択ソートの演習</strong></a>
+                 <ul>
+                    <li><a href="#3-1selection-sort-ex1-5num">5個</a></li>
+                    <li><a href="#3-2selection-sort-ex2-7num">7個</a></li>
+                    <li><a href="#3-3selection-sort-ex3-10num">10個（数字）</a></li>
+                    <li><a href="#3-4selection-sort-ex4-10abc">10個（ABC）</a></li>
+                    <li><a href="#3-5selection-sort-ex5-10jp">10個（日本語）</a></li>
+                </ul>
+            </li>
+            <li><a href="#4-0real-world-applications"><strong>実社会への応用</strong></a>
+                <ul>
+                    <li><a href="#4-1app-search-system">検索システムへの応用</a>
+                        <ul><li><a href="#4-2app-search-system-ex">演習</a></li></ul>
+                    </li>
+                    <li><a href="#4-3app-phonebook-system">電話帳システムへの応用</a>
+                        <ul><li><a href="#4-4app-phonebook-system-ex">演習</a></li></ul>
+                    </li>
+                </ul>
+            </li>
+            <li><a href="#5-0insertion-sort-learn"><strong>挿入ソート</strong></a>
+                <ul>
+                    <li><a href="#5-1insertion-sort-steps">挿入ソート ステップ</a></li>
+                    <li><a href="#5-2insertion-sort-merits">メリット</a></li>
+                    <li><a href="#5-3insertion-sort-example">挿入ソートの仕組み（5個）</a></li>
+                </ul>
+            </li>
+            <li><a href="#6-0quick-sort-learn"><strong>クイックソート</strong></a>
+                <ul>
+                    <li><a href="#6-1quick-sort-steps">クイックソート ステップ</a></li>
+                    <li><a href="#6-2quick-sort-merits">メリット</a></li>
+                    <li><a href="#6-3quick-sort-example">クイックソートの仕組み（5個）</a></li>
+                </ul>
+            </li>
+            <li><a href="#7-0shell-sort-learn"><strong>シェルソート</strong></a>
+                <ul>
+                    <li><a href="#7-1shell-sort-steps">シェルソート ステップ</a></li>
+                    <li><a href="#7-2shell-sort-merits">メリット</a></li>
+                    <li><a href="#7-3shell-sort-example">シェルソートの仕組み（5個）</a></li>
+                </ul>
+            </li>
+            <li><a href="#8-0insertion-sort-exercise"><strong>挿入ソートの演習</strong></a>
+                <ul>
+                    <li><a href="#8-1is-ex-5num">5個</a></li>
+                    <li><a href="#8-2is-ex-7items">7個</a></li>
+                    <li><a href="#8-3is-ex-10num">10個（数字）</a></li>
+                    <li><a href="#8-4is-ex-10abc">10個（ABC）</a></li>
+                    <li><a href="#8-5is-ex-10jp">10個（日本語）</a></li>
+                </ul>
+            </li>
+            <li><a href="#9-0quick-sort-exercise"><strong>クイックソートの演習</strong></a>
+                <ul>
+                    <li><a href="#9-1qs-ex-5num">5個</a></li>
+                    <li><a href="#9-2qs-ex-7items">7個</a></li>
+                    <li><a href="#9-3qs-ex-10num">10個（数字）</a></li>
+                    <li><a href="#9-4qs-ex-10abc">10個（ABC）</a></li>
+                    <li><a href="#9-5qs-ex-10jp">10個（日本語）</a></li>
+                </ul>
+            </li>
+            <li><a href="#10-0shell-sort-exercise"><strong>シェルソートの演習</strong></a>
+                <ul>
+                    <li><a href="#10-1ss-ex-5num">5個</a></li>
+                    <li><a href="#10-2ss-ex-7items">7個</a></li>
+                    <li><a href="#10-3ss-ex-10num">10個（数字）</a></li>
+                    <li><a href="#10-4ss-ex-10abc">10個（ABC）</a></li>
+                    <li><a href="#10-5ss-ex-10jp">10個（日本語）</a></li>
+                </ul>
+            </li>
+            <li><a href="#11-0summary"><strong>まとめ</strong></a>
+                <ul>
+                    <li><a href="#11-1summary-comparison">それぞれのソートについて・社会の仕組みへの応用</a></li>
+                </ul>
+            </li>
+            <li><a href="#12-0finally-author"><strong>最後に</strong></a></li>
+        </ul>
+    </nav>
+
+    <main class="content-area">
+        <!-- コンテンツはここに動的に読み込まれます -->
+    </main>
+
+    <div class="navigation-buttons">
+        <button id="prevButton">前へ</button>
+        <button id="nextButton">次へ</button>
+    </div>
+
+    <!-- Prism.js の JavaScript (CDN) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/prism.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-markup.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-css.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-javascript.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-clike.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.29.0/components/prism-plain.min.js"></script>
+
+    <!-- カスタムJavaScript -->
+    <script src="js/navigation.js"></script>
+</body>
+</html>
