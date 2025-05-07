@@ -282,11 +282,3 @@ body {
     padding-top: 5px;
     line-height: 1.4;
 }
-.content-area h2 {
-  color: black; /* または指定なしでも可 */
-  border-left: 5px solid red; /* 左の縦線 */
-  padding-left: 10px; /* 縦線とテキストの間のスペース */
-  border-bottom: 1px solid red; /* 下の横線 */
-  padding-bottom: 5px; /* テキストと下線の間のスペース */
-  margin-bottom: 20px; /* 見出しの後のスペース調整 */
-}
