@@ -2,7 +2,7 @@
 body {
     font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'Hiragino Sans', 'ヒラギノ角ゴシック', Meiryo, 'メイリオ', 'Yu Gothic', '游ゴシック', 'MS PGothic', 'ＭＳ Ｐゴシック', sans-serif;
     margin: 0;
-    width: 100%;
+    width: 110%;
     display: flex;
     height: 100vh;
     overflow: hidden;
