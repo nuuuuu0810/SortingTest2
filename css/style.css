@@ -66,6 +66,7 @@ body {
     overflow-y: auto;
     height: 100vh;
     position: relative;
+    background-color: red;
 }
 
 .content-page {
