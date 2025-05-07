@@ -85,7 +85,7 @@ body {
 
 .content-page:target {
     opacity: 1;
-    visibility: visible;
+    /*visibility: visible;*/
     z-index: 10;
     transition: opacity 0.4s ease-in-out, visibility 0s 0s;
 }
