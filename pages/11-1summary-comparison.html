@@ -1,0 +1,64 @@
+<section id="11-1summary-comparison" class="content-page">
+    <h2>それぞれのソートについて・社会の仕組みへの応用</h2>
+    <h3>各ソートアルゴリズムの比較</h3>
+    <p>以下は、今回学習した主要なソートアルゴリズムの特徴をまとめたものです。</p>
+    <table border="1" style="width:100%; border-collapse: collapse; font-size: 12px;">
+        <thead>
+            <tr>
+                <th style="padding: 6px; background-color: #f0f0f0;">アルゴリズム</th>
+                <th style="padding: 6px; background-color: #f0f0f0;">平均計算量</th>
+                <th style="padding: 6px; background-color: #f0f0f0;">最悪計算量</th>
+                <th style="padding: 6px; background-color: #f0f0f0;">安定性</th>
+                <th style="padding: 6px; background-color: #f0f0f0;">作業領域 (In-place)</th>
+                <th style="padding: 6px; background-color: #f0f0f0;">主な特徴・適した場面</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td style="padding: 6px;">選択ソート</td>
+                <td style="padding: 6px;">O(N<sup>2</sup>)</td>
+                <td style="padding: 6px;">O(N<sup>2</sup>)</td>
+                <td style="padding: 6px;">不安定</td>
+                <td style="padding: 6px;">Yes</td>
+                <td style="padding: 6px;">実装が単純。要素の交換回数が少ない。小規模データ。</td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">挿入ソート</td>
+                <td style="padding: 6px;">O(N<sup>2</sup>)</td>
+                <td style="padding: 6px;">O(N<sup>2</sup>)</td>
+                <td style="padding: 6px;">安定</td>
+                <td style="padding: 6px;">Yes</td>
+                <td style="padding: 6px;">ほぼ整列済みのデータに高速。オンライン処理。小規模データ。他のソートの部分処理。</td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">クイックソート</td>
+                <td style="padding: 6px;">O(N log N)</td>
+                <td style="padding: 6px;">O(N<sup>2</sup>)</td>
+                <td style="padding: 6px;">不安定</td>
+                <td style="padding: 6px;">Yes (スタック除く)</td>
+                <td style="padding: 6px;">一般的に非常に高速。大規模データ。ただし最悪ケースに注意。</td>
+            </tr>
+            <tr>
+                <td style="padding: 6px;">シェルソート</td>
+                <td style="padding: 6px;">依存 (例: O(N(logN)<sup>2</sup>))</td>
+                <td style="padding: 6px;">依存 (例: O(N<sup>2</sup>))</td>
+                <td style="padding: 6px;">不安定</td>
+                <td style="padding: 6px;">Yes</td>
+                <td style="padding: 6px;">挿入ソートの改良。中規模データ。実装が比較的容易。</td>
+            </tr>
+        </tbody>
+    </table>
+    <p>（注: マージソートやヒープソートなど、他にも重要な O(N log N) のアルゴリズムがあります。）</p>
+    <h3>社会の仕組みへの応用</h3>
+    <p>ソートは、目に見える形だけでなく、社会の様々なシステムの裏側で活用されています。</p>
+    <ul>
+        <li><strong>情報検索:</strong> Googleのような検索エンジン、図書館の蔵書検索、データベースシステムなど、情報を効率的に見つける必要がある場所では必ずと言っていいほどソート（またはソートに関連するデータ構造、例：インデックス）が使われています。</li>
+        <li><strong>ランキング表示:</strong> 売上ランキング、人気投票の結果、スポーツの順位表、試験の成績順など、順序をつけて情報を提示する際にはソートが不可欠です。</li>
+        <li><strong>データ分析と可視化:</strong> データを分析しやすくしたり、グラフなどで可視化したりする前に、特定の基準でソートすることがよく行われます。これにより、傾向やパターンを発見しやすくなります。</li>
+        <li><strong>物流・配送システム:</strong> 配送ルートの最適化や、荷物の仕分け作業などでも、効率化のためにソートの考え方が応用されることがあります。例えば、郵便番号順に仕分けられた郵便物など。</li>
+        <li><strong>スケジューリング:</strong> タスクの優先度順、締切順など、タスク管理やジョブスケジューリングにおいてもソートが活用されます。</li>
+        <li><strong>Eコマース:</strong> 商品を価格順、評価順、新着順などで並べ替える機能は、顧客の購買体験を向上させるために重要です。</li>
+    </ul>
+    <p>ソートアルゴリズムの学習は、単にプログラミング技術を学ぶだけでなく、問題解決のための論理的な思考方法や効率化の考え方を養う上でも非常に有益です。これらの知識は、コンピュータサイエンスの分野に限らず、様々な場面で役立つでしょう。</p>
+    <p>これで、ソートに関する一連の学習は終了です。お疲れ様でした！</p>
+</section>

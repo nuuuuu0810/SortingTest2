@@ -1,0 +1,37 @@
+<section id="2-0selection-sort-learn" class="content-page">
+    <h2>選択ソートとは</h2>
+    <p>選択ソート (Selection Sort) は、単純なソートアルゴリズムの一つです。アルゴリズムの動作は直感的で理解しやすいのが特徴です。</p>
+    <p><strong>基本的な考え方:</strong></p>
+    <ol>
+        <li>整列されていない部分（最初は配列全体）の中から、最小値（または最大値）を持つ要素を探し出します。</li>
+        <li>見つけ出した最小値（または最大値）の要素を、整列されていない部分の先頭の要素と交換します。</li>
+        <li>これにより、先頭の要素が確定し、整列済み部分が一つ増えます。</li>
+        <li>整列されていない部分がなくなるまで、上記1～3の操作を繰り返します。</li>
+    </ol>
+    <p>以下に選択ソートの動作を視覚的に確認できるツールを示します。「実行開始」ボタンを押すと、指定された配列のソートが開始されます。速度スライダーでアニメーションの速度を調整できます。</p>
+
+    <!-- 視覚化ツールのHTML構造 -->
+    <div id="app-container">
+      <div id="left-panel">
+        <div id="sort-container" class="container">
+          <!-- JavaScriptで要素を動的に生成 -->
+        </div>
+        <div id="status">「実行開始」ボタンを押してソートを開始してください。</div>
+      </div>
+      <div id="right-panel">
+        <div id="controls">
+          <button id="start-sort">実行開始 <span>▶▶</span></button>
+          <button id="reset">リセット <span>↺</span></button>
+        </div>
+        <div id="speed-control">
+          <label for="speed-slider">速度:</label>
+          <div id="speed-value-container">
+              <input type="range" id="speed-slider" min="1" max="11" value="6">
+              <span id="speed-value"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="../js/selectionSortVisualizer.js"></script>
+</section>

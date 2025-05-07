@@ -1,0 +1,33 @@
+<section id="4-3app-phonebook-system" class="content-page">
+    <h2>電話帳システムへの応用</h2>
+    <p>電話帳システム（紙媒体でもデジタルでも）は、ソートが活用される古典的で分かりやすい例です。</p>
+    <p><strong>電話帳におけるソートの利点:</strong></p>
+    <ul>
+        <li><strong>名前による検索の容易さ:</strong> 通常、電話帳は氏名（または会社名）の五十音順やアルファベット順にソートされています。これにより、特定の人や会社の電話番号を素早く見つけることができます。もしソートされていなければ、全件を最初から最後まで確認する必要があり、非常に非効率です。</li>
+        <li><strong>一覧性の向上:</strong> ソートされていることで、全体を眺めたときにどこに何があるか把握しやすくなります。</li>
+    </ul>
+    <p><strong>デジタル電話帳システムの場合:</strong></p>
+    <p>スマートフォンの連絡先アプリや、顧客管理システム(CRM)内の電話帳機能なども、内部的にはデータがソート可能な状態で管理されています。ユーザーは通常、表示順を「姓のフリガナ順」「名のフリガナ順」「登録日順」などから選択できます。</p>
+    <p>検索機能と組み合わせることで、膨大な連絡先データの中からでも、目的の情報を瞬時に引き出すことが可能です。例えば、「佐藤」と入力すれば、「佐藤」で始まる連絡先がソートされた状態でリストアップされます。</p>
+    <pre><code class="language-javascript">// 簡単な電話帳データの例 (JavaScript)
+let phonebook = [
+    { name: "山田 太郎", kana: "ヤマダ タロウ", phone: "090-1111-2222" },
+    { name: "佐藤 花子", kana: "サトウ ハナコ", phone: "080-3333-4444" },
+    { name: "鈴木 一郎", kana: "スズキ イチロウ", phone: "070-5555-6666" },
+    { name: "高橋 次郎", kana: "タカハシ ジロウ", phone: "090-7777-8888" },
+    { name: "田中 三郎", kana: "タナカ サブロウ", phone: "080-9999-0000" }
+];
+
+// カナでソートする関数
+function sortByKana(contacts) {
+    return contacts.sort((a, b) => {
+        if (a.kana < b.kana) return -1;
+        if (a.kana > b.kana) return 1;
+        return 0;
+    });
+}
+
+let sortedPhonebook = sortByKana(phonebook);
+console.log(sortedPhonebook);
+</code></pre>
+</section>
