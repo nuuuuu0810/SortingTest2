@@ -1,169 +1,170 @@
 /* css/style.css */
 body {
-    font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'Hiragino Sans', 'ヒラギノ角ゴシック', Meiryo, 'メイリオ', 'Yu Gothic', '游ゴシック', 'MS PGothic', 'ＭＳ Ｐゴシック', sans-serif;
-    margin: 0;
-    display: flex;
-    height: 100vh;
-    overflow: hidden;
-}
+            font-family: 'Hiragino Kaku Gothic ProN', 'ヒラギノ角ゴ ProN W3', 'Hiragino Sans', 'ヒラギノ角ゴシック', Meiryo, 'メイリオ', 'Yu Gothic', '游ゴシック', 'MS PGothic', 'ＭＳ Ｐゴシック', sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
 
-.table-of-contents {
-    width: 15%;
-    background-color: #f4f4f4;
-    font-size: 10px;
-    padding: 10px 15px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    height: 100vh;
-    border-right: 1px solid #ccc;
-}
+        .table-of-contents {
+            width: 15%; /* 目次項目増加のため少し幅を広げる */
+            background-color: #f4f4f4;
+            font-size: 10px;
+            padding: 10px 15px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            height: 100vh;
+            border-right: 1px solid #ccc;
+        }
 
-.table-of-contents h3 {
-    margin-top: 0;
-    color: #333;
-    font-size: 14px;
-}
+        .table-of-contents h3 {
+            margin-top: 0;
+            color: #333;
+            font-size: 14px;
+        }
 
-.table-of-contents ul {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-}
-.table-of-contents ul ul {
-    padding-left: 15px;
-}
- .table-of-contents ul ul ul { /* 3階層目のインデント */
-    padding-left: 15px;
-}
-
-.table-of-contents li a {
-    display: block;
-    padding: 5px 5px;
-    text-decoration: none;
-    color: #337ab7;
-    border-radius: 4px;
-    margin-bottom: 4px;
-    font-size: 10.5px;
-    transition: background-color 0.2s ease-in-out;
-}
-
-.table-of-contents li a:hover {
-    background-color: #e0e0e0;
-    color: #23527c;
-}
-
-.table-of-contents li a.active-toc-item {
-    background-color: #007bff;
-    color: white;
-    font-weight: bold;
-}
-
-.content-area {
-    flex-grow: 1;
-    padding: 30px;
-    box-sizing: border-box;
-    overflow-y: auto; /* content-area 自体がスクロール可能 */
-    height: 100vh;
-    position: relative; /* .content-page.active の親として */
-}
-
-.content-page {
-    background-color: #ffffff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 25px;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-    /* JavaScriptで表示を切り替えるため、デフォルトは非表示 */
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity 0.4s ease-in-out;
-    overflow-y: auto; /* ページ単体が長い場合にスクロール */
-    width: 100%; /* 親要素のpaddingを考慮して100% */
-    min-height: calc(100vh - 60px); /* 親のpadding分を引いた高さ、必要に応じて調整 */
-    box-sizing: border-box; /* paddingをwidth/heightに含める */
-    
-    /* position: absolute; top:0; left:0; right:0; bottom:0; 等は不要 */
-}
-
-.content-page.active { /* JavaScriptでこのクラスを付与して表示 */
-    opacity: 1;
-    visibility: visible;
-    /* z-index: 10; /* 通常は不要だが、他の要素との重なりで問題あれば */
-}
+        .table-of-contents ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        .table-of-contents ul ul {
+            padding-left: 15px;
+        }
+         .table-of-contents ul ul ul { /* 3階層目のインデント */
+            padding-left: 15px;
+        }
 
 
-.content-page h2 {
-    color: #333;
-    margin-top: 0;
-    border-bottom: 1px solid #eee;
-    padding-bottom: 10px;
-}
-.content-page h3 {
-    color: #444;
-    margin-top: 20px;
-    border-bottom: 1px dotted #ccc;
-    padding-bottom: 5px;
-}
-.content-page p, .content-page ul, .content-page ol {
-    line-height: 1.7;
-    color: #555;
-    margin-bottom: 15px;
-    font-size: 14px;
-}
-.content-page ul, .content-page ol {
-    padding-left: 20px;
-}
-.content-page pre {
-    background-color: #272822; /* Prism okaidia theme background */
-    color: #f8f8f2; /* Prism okaidia theme text */
-    padding: 1em;
-    border-radius: 0.3em;
-    overflow-x: auto;
-    font-size: 0.9em;
-}
-.content-page pre code {
-    font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
-}
-.exercise-box {
-    border: 1px solid #007bff;
-    background-color: #e7f3ff;
-    padding: 15px;
-    margin-top: 20px;
-    border-radius: 5px;
-}
-.exercise-box h4 {
-    margin-top: 0;
-    color: #0056b3;
-}
-.internal-link-list li {
-    margin-bottom: 8px;
-}
+        .table-of-contents li a {
+            display: block;
+            padding: 5px 5px; /* パディング微調整 */
+            text-decoration: none;
+            color: #337ab7;
+            border-radius: 4px;
+            margin-bottom: 4px; /* マージン微調整 */
+            font-size: 10.5px; /* フォントサイズ微調整 */
+            transition: background-color 0.2s ease-in-out;
+        }
 
-.navigation-buttons {
-    position: fixed;
-    bottom: 50px;
-    right: 50px;
-    z-index: 20;
-}
+        .table-of-contents li a:hover {
+            background-color: #e0e0e0;
+            color: #23527c;
+        }
 
-.navigation-buttons button {
-    padding: 10px 20px;
-    margin-left: 10px;
-    font-size: 16px;
-    cursor: pointer;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-}
-.navigation-buttons button:hover {
-    background-color: #0056b3;
-}
-.navigation-buttons button:disabled {
-    background-color: #ccc;
-    cursor: not-allowed;
-}
+        .table-of-contents li a.active-toc-item {
+            background-color: #007bff;
+            color: white;
+            font-weight: bold;
+        }
+
+        .content-area {
+            flex-grow: 1;
+            padding: 30px;
+            box-sizing: border-box;
+            overflow-y: auto;
+            height: 100vh;
+            position: relative;
+        }
+
+        .content-page {
+            background-color: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            right: 30px;
+            bottom: 30px;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease-in-out, visibility 0s 0.4s;
+            overflow-y: auto;
+        }
+
+        .content-page:target {
+            opacity: 1;
+            visibility: visible;
+            z-index: 10;
+            transition: opacity 0.4s ease-in-out, visibility 0s 0s;
+        }
+
+        .content-page h2 {
+            color: #333;
+            margin-top: 0;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        .content-page h3 {
+            color: #444;
+            margin-top: 20px;
+            border-bottom: 1px dotted #ccc;
+            padding-bottom: 5px;
+        }
+        .content-page p, .content-page ul, .content-page ol {
+            line-height: 1.7;
+            color: #555;
+            margin-bottom: 15px;
+            font-size: 14px;
+        }
+        .content-page ul, .content-page ol {
+            padding-left: 20px;
+        }
+        .content-page pre {
+            background-color: #272822;
+            color: #f8f8f2;
+            padding: 1em;
+            border-radius: 0.3em;
+            overflow-x: auto;
+            font-size: 0.9em;
+        }
+        .content-page pre code {
+            font-family: 'Consolas', 'Monaco', 'Andale Mono', 'Ubuntu Mono', monospace;
+        }
+        .exercise-box {
+            border: 1px solid #007bff;
+            background-color: #e7f3ff;
+            padding: 15px;
+            margin-top: 20px;
+            border-radius: 5px;
+        }
+        .exercise-box h4 {
+            margin-top: 0;
+            color: #0056b3;
+        }
+        .internal-link-list li {
+            margin-bottom: 8px;
+        }
+
+
+        .navigation-buttons {
+            position: fixed;
+            bottom: 50px;
+            right: 50px;
+            z-index: 20;
+        }
+
+        .navigation-buttons button {
+            padding: 10px 20px;
+            margin-left: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        .navigation-buttons button:hover {
+            background-color: #0056b3;
+        }
+        .navigation-buttons button:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
 
 /* 選択ソート視覚化ツールのスタイル */
 #app-container {
