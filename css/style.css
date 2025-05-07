@@ -60,12 +60,13 @@ body {
 }
 
 .content-area {
-    flex-grow: 0;
+    flex-grow: 1;
     padding: 30px;
     box-sizing: border-box;
     overflow-y: auto; /* content-area 自体がスクロール可能 */
     height: 100vh;
     position: relative; /* .content-page.active の親として */
+    width: 85%;
 }
 
 .content-page {
