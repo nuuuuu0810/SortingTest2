@@ -171,6 +171,42 @@ body {
     background-color: #ccc;
     cursor: not-allowed;
 }
+/*1-0のcss*/
+/* .content-page 内のスライドタイトルコンテナ */
+.content-page .slide-title-container {
+    display: flex;
+    align-items: baseline; /* 番号とタイトルをベースラインで揃える */
+    border-bottom: 2px solid red;
+    padding-bottom: 5px;
+    /* width: 100%; */ /* content-pageのパディングを考慮した幅いっぱいにしたい場合 */
+    /* 元の85vwはビューポート幅基準なので、content-page内で使うと意図と異なる場合がある */
+    /* ここでは、content-pageの幅に対して相対的にするか、具体的な値を指定するか検討 */
+    /* 例: content-page の幅に合わせる */
+    width: 100%; /* content-page の padding 内で100% */
+    margin-top: 0; /* content-page の h2 の margin-top:0 と合わせる */
+    margin-bottom: 20px; /* 通常のh2などの後のスペースと合わせる */
+    box-sizing: border-box; /* width:100% と padding/border を共存させるため */
+}
+
+.content-page .slide-number {
+    font-size: 35px;
+    color: red;
+    /* margin-left: 5%; */ /* 親要素(slide-title-container)の幅に対する% */
+    /* 具体的なpx値や、flexのgapで調整する方が制御しやすい場合もある */
+    margin-left: 0; /* 左端から開始 */
+    margin-right: 15px; /* 番号とタイトルの間のスペース */
+    font-weight: 700;
+    line-height: 1; /* ベースライン揃えのため影響小 */
+}
+
+.content-page .slide-title { /* h1タグを想定 */
+    font-size: 35px;
+    color: #000;
+    font-weight: 600;
+    margin: 0; /* h1のデフォルトマージンをリセット */
+    line-height: 1; /* ベースライン揃えのため影響小 */
+    flex-grow: 1; /* タイトル部分が残りの幅を占めるようにする */
+}
 
 /* 選択ソート視覚化ツールのスタイル */
 #app-container {
