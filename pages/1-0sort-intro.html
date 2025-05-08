@@ -9,4 +9,536 @@
         <li><strong>他のアルゴリズムの準備:</strong> 特定のアルゴリズム（例：二分探索）は、ソート済みのデータに対してのみ効率的に動作します。</li>
     </ul>
     <p>日常生活でも、書類を日付順に整理したり、本棚の本を著者名順に並べたりするなど、無意識のうちにソートを行っていることがあります。</p>
+
+    <!DOCTYPE html>
+    <html lang="ja">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>段階的 選択ソート (厳密モード)</title>
+        <style>
+            body {
+                font-family: 'Helvetica Neue', Arial, sans-serif;
+                display: flex;
+                justify-content: center;
+                align-items: flex-start;
+                min-height: 100vh;
+                background-color: #f0f2f5;
+                padding: 30px 15px;
+                box-sizing: border-box;
+                /* Resetting body margin/padding for embedding */
+                margin: 0; 
+            }
+
+            /* Added a wrapper for the sort tool to better fit within the section */
+            .sort-tool-wrapper {
+                width: 100%;
+                max-width: 500px; /* Adjust as needed */
+                margin-top: 20px; /* Space from the text above */
+            }
+
+            #sort-container {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                background-color: #ffffff;
+                padding: 25px;
+                border-radius: 8px;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+                width: 100%; /* Make it responsive within the wrapper */
+            }
+
+            .step-row {
+                display: flex;
+                align-items: center;
+                margin-bottom: 0;
+                justify-content: flex-start;
+                min-height: 45px;
+                opacity: 1;
+                visibility: visible;
+                height: auto;
+                transition: opacity 0.5s ease-in-out, visibility 0s linear 0s, height 0.5s ease-in-out, margin-bottom 0.5s ease-in-out;
+                position: relative;
+                box-sizing: border-box;
+                padding: 0;
+                width: 100%;
+                max-width: 450px;
+            }
+
+            .step-row:not(.visible) {
+                 opacity: 0;
+                 height: 0;
+                 overflow: hidden;
+                 visibility: hidden;
+                 pointer-events: none;
+                 margin-bottom: 0;
+                 transition: opacity 0.3s ease-out, height 0.3s ease-out, margin-bottom 0.3s ease-out, visibility 0s linear 0.3s;
+            }
+            .step-row.visible {
+                opacity: 1;
+                height: auto;
+                min-height: 45px;
+                margin-bottom: 12px;
+                visibility: visible;
+                pointer-events: auto;
+            }
+
+            .number-squares {
+                display: flex;
+                gap: 6px;
+                margin-right: 10px;
+            }
+
+            .number-element {
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                border: 1px solid transparent;
+                border-radius: 4px;
+                color: white;
+                font-weight: bold;
+                font-size: 1.2em;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                flex-shrink: 0;
+                cursor: default;
+                appearance: none;
+                -webkit-appearance: none;
+                -moz-appearance: none;
+                text-align: center;
+                text-align-last: center;
+            }
+            .number-element option {
+                background-color: white;
+                color: black;
+            }
+
+            /* State-specific colors */
+            .number-element.state-interactive-swap-target { /* currentPass の位置 */
+                background-color: #00bfff; /* DeepSkyBlue */
+                border-color: #00a0cc;
+                cursor: pointer;
+            }
+            .number-element.state-interactive-swap-source { /* indexOfActualMin の位置 */
+                background-color: #ff4136; /* Bright Red */
+                border-color: #dc2a23;
+                cursor: pointer;
+            }
+            .number-element.state-interactive-swap-target.state-interactive-swap-source {
+                 /* Example: border: 2px dashed gold; */
+            }
+            .number-element.state-unsorted {
+                background-color: #ff4136; /* Bright Red */
+                border-color: #dc2a23;
+                cursor: pointer; /* Now also interactive */
+            }
+            .number-element.state-sorted {
+                background-color: #a9a9a9; /* DarkGrey */
+                border-color: #8c8c8c;
+            }
+
+            .number-element:disabled { /* Only sorted elements will be disabled */
+                opacity: 1;
+                cursor: default;
+            }
+
+            .execute-btn {
+                background-color: #212121; /* Black */
+                color: white;
+                border: 1px solid #000;
+                width: 38px;
+                height: 38px;
+                border-radius: 4px;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+                transition: background-color 0.2s ease;
+                padding: 0;
+                flex-shrink: 0;
+                cursor: pointer;
+                margin-right: 12px;
+            }
+             .execute-btn svg {
+                 fill: white;
+                 width: 16px;
+                 height: 16px;
+                 display: block;
+             }
+             .execute-btn:disabled {
+                 background-color: #666666;
+                 border-color: #555555;
+                 cursor: not-allowed;
+                 box-shadow: none;
+             }
+             .execute-btn:disabled svg {
+                  fill: #cccccc;
+             }
+
+            .status-text {
+                font-size: 1.1em;
+                font-weight: bold;
+                min-width: 60px;
+                text-align: left;
+            }
+            .status-ok { color: #2ecc40; }
+            .status-error { color: #ff4136; } /* Changed error color to red for clarity */
+            .status-complete { color: #2ecc40; }
+
+
+            @media (max-width: 480px) {
+                 .number-squares { gap: 4px; margin-right: 8px; }
+                 .number-element { width: 32px; height: 32px; font-size: 1em; }
+                 .execute-btn { width: 32px; height: 32px; margin-right: 8px;}
+                 .execute-btn svg { width: 14px; height: 14px; }
+                 #sort-container { padding: 20px 15px; }
+                 .step-row.visible { margin-bottom: 10px; }
+                 .status-text { font-size: 1em; min-width: 50px; }
+            }
+        </style>
+    </head>
+    <body>
+        <!-- Added a wrapper for the sort tool -->
+        <div class="sort-tool-wrapper">
+            <div id="sort-container">
+                <!-- Rows will be dynamically populated by JS -->
+            </div>
+        </div>
+
+        <script>
+            const initialArray = [5, 4, 3, 2, 1];
+            let currentArray = [];
+            let currentPass = 0;
+            const numElements = initialArray.length;
+
+            const sortContainer = document.getElementById('sort-container');
+            let allRowsElements = [];
+            let allNumberElementsInRows = [];
+            let allExecuteButtons = [];
+            let allStatusTexts = [];
+
+            function createSelectElement(id, value, optionsArray, stateClasses, isDisabled) {
+                const select = document.createElement('select');
+                select.id = id;
+                select.className = `number-element ${stateClasses}`;
+                select.disabled = isDisabled;
+
+                const uniqueSortedOptions = [...new Set(optionsArray)].sort((a,b) => a-b);
+
+                uniqueSortedOptions.forEach(optVal => {
+                    const option = document.createElement('option');
+                    option.value = optVal;
+                    option.textContent = optVal;
+                    if (optVal === value) {
+                        option.selected = true;
+                    }
+                    select.appendChild(option);
+                });
+                if (uniqueSortedOptions.length === 0 || !uniqueSortedOptions.includes(value)) {
+                    if (select.options.length === 0) {
+                        const option = document.createElement('option');
+                        option.value = value;
+                        option.textContent = value;
+                        option.selected = true;
+                        select.appendChild(option);
+                    } else if (!select.value && select.options.length > 0) {
+                         select.value = select.options[0].value;
+                    }
+                }
+                return select;
+            }
+
+            function generateRows() {
+                sortContainer.innerHTML = '';
+                allRowsElements = [];
+                allNumberElementsInRows = [];
+                allExecuteButtons = [];
+                allStatusTexts = [];
+
+                for (let i = 0; i <= numElements; i++) {
+                    const rowDiv = document.createElement('div');
+                    rowDiv.className = 'step-row';
+                    rowDiv.id = `step-${i}`;
+
+                    const squaresDiv = document.createElement('div');
+                    squaresDiv.className = 'number-squares';
+
+                    const currentNumberElements = [];
+                    for (let j = 0; j < numElements; j++) {
+                        const selectEl = createSelectElement(`el-${i}-${j}`, 0, [0], 'state-unsorted', true);
+                        squaresDiv.appendChild(selectEl);
+                        currentNumberElements.push(selectEl);
+                    }
+                    allNumberElementsInRows.push(currentNumberElements);
+                    rowDiv.appendChild(squaresDiv);
+
+                    if (i < numElements - 1) {
+                        const button = document.createElement('button');
+                        button.className = 'execute-btn';
+                        button.dataset.step = i;
+                        button.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/><path d="M0 0h24v24H0z" fill="none"/></svg>';
+                        button.disabled = true;
+                        button.addEventListener('click', handleExecute);
+                        allExecuteButtons[i] = button;
+                        rowDiv.appendChild(button);
+                    }
+
+                    const statusSpan = document.createElement('span');
+                    statusSpan.className = 'status-text';
+                    statusSpan.id = `status-${i}`;
+                    allStatusTexts[i] = statusSpan;
+                    rowDiv.appendChild(statusSpan);
+
+                    sortContainer.appendChild(rowDiv);
+                    allRowsElements.push(rowDiv);
+                }
+            }
+
+            function prepareStepUI(passIdx, arrayToDisplay) {
+                if (numElements > 1 && passIdx >= numElements - 1) {
+                    displayAllSorted(arrayToDisplay);
+                    return;
+                }
+                if (numElements === 1 && passIdx === 0) {
+                     displayAllSorted(arrayToDisplay);
+                     return;
+                }
+
+                const currentRow = allRowsElements[passIdx];
+                currentRow.classList.add('visible');
+
+                let actualMinValueInUnsorted = arrayToDisplay[passIdx];
+                let indexOfActualMinInArray = passIdx;
+                for (let i = passIdx + 1; i < numElements; i++) {
+                    if (arrayToDisplay[i] < actualMinValueInUnsorted) {
+                        actualMinValueInUnsorted = arrayToDisplay[i];
+                        indexOfActualMinInArray = i;
+                    }
+                }
+
+                const currentSelectsInRow = allNumberElementsInRows[passIdx];
+                const allPossibleOptions = [...new Set(initialArray)];
+
+                currentSelectsInRow.forEach((selectEl, colIndex) => {
+                    selectEl.className = 'number-element';
+                    selectEl.innerHTML = '';
+
+                    let value = arrayToDisplay[colIndex];
+                    let optionsSource = [value];
+                    let isDisabled = true;
+                    let stateClasses = '';
+
+                    if (colIndex < passIdx) {
+                        stateClasses = 'state-sorted';
+                        // isDisabled remains true
+                    } else {
+                        isDisabled = false;
+                        if (colIndex === passIdx) {
+                            stateClasses = 'state-interactive-swap-target';
+                            optionsSource = allPossibleOptions;
+                        } else if (colIndex === indexOfActualMinInArray) {
+                            stateClasses += (stateClasses ? ' ' : '') + 'state-interactive-swap-source';
+                            optionsSource = allPossibleOptions;
+                        } else {
+                            stateClasses = 'state-unsorted';
+                            optionsSource = allPossibleOptions;
+                        }
+                    }
+
+                    selectEl.classList.add(...stateClasses.split(' ').filter(c => c));
+                    selectEl.disabled = isDisabled;
+
+                    const uniqueSortedOptions = [...new Set(optionsSource)].sort((a,b)=>a-b);
+                    uniqueSortedOptions.forEach(optVal => {
+                        const option = document.createElement('option');
+                        option.value = optVal;
+                        option.textContent = optVal;
+                        if (optVal === value) {
+                             option.selected = true;
+                        }
+                        selectEl.appendChild(option);
+                    });
+                    selectEl.value = value;
+                    if (!selectEl.value && selectEl.options.length > 0) { // Fallback if value was not in options
+                        selectEl.value = selectEl.options[0].value;
+                    }
+                });
+
+                if (allExecuteButtons[passIdx]) {
+                     allExecuteButtons[passIdx].disabled = false;
+                }
+                if (allStatusTexts[passIdx]) {
+                    allStatusTexts[passIdx].textContent = '';
+                    allStatusTexts[passIdx].className = 'status-text';
+                }
+            }
+
+            function displayAllSorted(sortedArray) {
+                const finalRowIdx = numElements;
+                if (allRowsElements[finalRowIdx]) {
+                    allRowsElements[finalRowIdx].classList.add('visible');
+                    const selectsInFinalRow = allNumberElementsInRows[finalRowIdx];
+                    selectsInFinalRow.forEach((select, colIndex) => {
+                        select.innerHTML = '';
+                        const option = document.createElement('option');
+                        option.value = sortedArray[colIndex];
+                        option.textContent = sortedArray[colIndex];
+                        option.selected = true;
+                        select.appendChild(option);
+                        select.className = 'number-element state-sorted';
+                        select.disabled = true;
+                    });
+                    if (allStatusTexts[finalRowIdx]) {
+                        allStatusTexts[finalRowIdx].textContent = '完了';
+                        allStatusTexts[finalRowIdx].className = 'status-text status-complete';
+                    }
+                }
+                 // Ensure previous step button is disabled if sorting completes early (e.g. numElements = 1)
+                if (currentPass < allExecuteButtons.length && allExecuteButtons[currentPass]) {
+                    allExecuteButtons[currentPass].disabled = true;
+                }
+                // If there was a step before the final "完了" row, disable its button as well.
+                if (numElements > 1 && allExecuteButtons[numElements - 2]) {
+                     allExecuteButtons[numElements - 2].disabled = true;
+                }
+            }
+
+            function handleExecute(event) {
+                const button = event.currentTarget;
+                const passIdxOfButton = parseInt(button.dataset.step);
+
+                if (passIdxOfButton !== currentPass) return;
+
+                const currentStatusText = allStatusTexts[currentPass];
+
+                // 1. Get the array state as set by the user in the current row's SELECTs
+                const userCurrentRowState = [];
+                const selectsInCurrentRow = allNumberElementsInRows[currentPass];
+                selectsInCurrentRow.forEach(selectEl => {
+                    userCurrentRowState.push(parseInt(selectEl.value));
+                });
+
+                // 2. Calculate the theoretically correct array state after this pass's swap
+                let tempArrayForCalculation = [...currentArray]; // Use a copy of the backend array before this pass's swap
+                let actualMinValue = tempArrayForCalculation[currentPass];
+                let indexOfMin = currentPass;
+                for (let i = currentPass + 1; i < numElements; i++) {
+                    if (tempArrayForCalculation[i] < actualMinValue) {
+                        actualMinValue = tempArrayForCalculation[i];
+                        indexOfMin = i;
+                    }
+                }
+
+                // Perform the correct swap on the temporary calculation array
+                if (indexOfMin !== currentPass) {
+                    [tempArrayForCalculation[currentPass], tempArrayForCalculation[indexOfMin]] =
+                        [tempArrayForCalculation[indexOfMin], tempArrayForCalculation[currentPass]];
+                }
+                const expectedRowStateAfterCorrectSwap = tempArrayForCalculation;
+
+
+                // 3. Compare the user's setup with the theoretically correct state
+                let isUserSetupCorrect = true;
+                for (let i = 0; i < numElements; i++) {
+                    if (userCurrentRowState[i] !== expectedRowStateAfterCorrectSwap[i]) {
+                        isUserSetupCorrect = false;
+                        break;
+                    }
+                }
+
+                if (isUserSetupCorrect) {
+                    currentStatusText.textContent = 'OK';
+                    currentStatusText.className = 'status-text status-ok';
+                    button.disabled = true;
+
+                    // Update the backend currentArray to reflect the correct state
+                    currentArray = [...expectedRowStateAfterCorrectSwap];
+
+                    // Update the visual state of the current row's SELECTs to be disabled and show the correct values
+                    allNumberElementsInRows[currentPass].forEach((sel, idx) => {
+                        sel.disabled = true;
+                        const finalValue = currentArray[idx];
+                        sel.innerHTML = '';
+                        const opt = document.createElement('option');
+                        opt.value = finalValue;
+                        opt.textContent = finalValue;
+                        opt.selected = true;
+                        sel.appendChild(opt);
+
+                        // Update class based on the new sorted state
+                        if (idx <= currentPass) {
+                            sel.className = 'number-element state-sorted';
+                        } else {
+                            // For elements after the current pass, they are still "unsorted" from the perspective of the *next* pass
+                            // but we don't want them to be interactive red if they are not the min/target for the next pass.
+                            // However, for strict mode, if they were selected, their value is now fixed.
+                            // The prepareStepUI will correctly re-style them for the next pass.
+                            // For now, just ensure they are not wrongly styled as interactive.
+                            // The key is that prepareStepUI handles the styling for the *next* active row.
+                            // Here, we are just finalizing the *current* row.
+                             sel.className = 'number-element state-unsorted'; // This will be overridden by prepareStepUI if it's not the last step
+                        }
+                    });
+
+                    currentPass++;
+
+                    if (currentPass < numElements -1 ) { // N-1 passes for N elements
+                         prepareStepUI(currentPass, currentArray);
+                    } else if (numElements > 0) { // After N-1 passes, the array is sorted.
+                        // Update the last interactive row (if N > 1) to all sorted before showing final row
+                        if (numElements > 1) {
+                             allNumberElementsInRows[numElements - 2].forEach((sel,idx) => {
+                                sel.className = 'number-element state-sorted';
+                                sel.disabled = true;
+                             });
+                        }
+                        displayAllSorted(currentArray);
+                    }
+
+
+                } else {
+                    currentStatusText.textContent = 'エラー';
+                    currentStatusText.className = 'status-text status-error';
+                }
+            }
+
+             document.addEventListener('DOMContentLoaded', () => {
+                // Check if the script is already initialized to prevent multiple inits if embedded
+                if (document.body.dataset.sortInitialized) return;
+                document.body.dataset.sortInitialized = "true";
+
+
+                generateRows();
+                currentArray = [...initialArray];
+                currentPass = 0;
+
+                allRowsElements.forEach((row, index) => {
+                    if (index > 0) row.classList.remove('visible');
+                });
+
+                if (numElements > 0) {
+                     prepareStepUI(0, currentArray);
+                     if (numElements === 1) {
+                        // Special handling for single element array, it's already "sorted"
+                        const singleElementSelect = allNumberElementsInRows[0][0];
+                        singleElementSelect.className = 'number-element state-sorted';
+                        singleElementSelect.disabled = true;
+                        singleElementSelect.innerHTML = '';
+                        const opt = document.createElement('option');
+                        opt.value = currentArray[0]; opt.textContent = currentArray[0]; opt.selected = true;
+                        singleElementSelect.appendChild(opt);
+                        
+                        // No execute button for numElements === 1, directly show "完了"
+                        // The displayAllSorted handles the "完了" row
+                        displayAllSorted(currentArray); 
+                    }
+                } else {
+                    sortContainer.textContent = "配列が空です。";
+                }
+            });
+        </script>
+
+    </body>
+    </html>
 </section>
